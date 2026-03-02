@@ -79,5 +79,5 @@ contour(d4, add = TRUE)
 par(mfrow = c(1, 1))
 
 d <- d05
-
-
+plot(d, main = "Kernel density estimation - latrine locations", xlab = "Longitude", ylab = "Latitude")
+#actually might need finer grain smoothing 
