@@ -13,7 +13,7 @@ plot(st_geometry(latrine_pts))
 
 #extract coordinates
 latrine_coords <- st_coordinates(latrine_pts)
-class(latrine_coords) #should be function
+class(latrine_coords) 
 head(latrine_coords) #should be lat & long
 
 #projected ppp object 
@@ -58,26 +58,27 @@ print(bw.ppl(latrine_ppp))
 
 #compute density surface 
 d1 <- density.ppp(latrine_ppp, sigma = bw.o, kernel = "quartic")
+d0125 <- density.ppp(latrine_ppp, sigma = bw.o, kernel = "quartic", adjust = 0.125)
+d025 <- density.ppp(latrine_ppp, sigma = bw.o, kernel = "quartic", adjust = 0.25)
 d05 <- density.ppp(latrine_ppp, sigma = bw.o, kernel = "quartic", adjust = 0.5)
-d4 <- density.ppp(latrine_ppp, sigma = bw.o, kernel = "quartic", adjust = 4)
-d2 <- density.ppp(latrine_ppp, sigma = bw.o, kernel = "quartic", adjust = 2)
 
 
 par(mfrow = c(2, 2))
-plot.im(d05, main = paste("Bandwidth=", round(bw.o * 0.4, 4), " (optimum*.5)", #looks the best 
+plot.im(d0125, main = paste("Bandwidth=", round(bw.o * 0.125, 4), " (optimum*.125)",
                           sep = "", collapse = ""))
-contour(d05, add = TRUE)
+
 plot(d1, main = paste("Bandwidth=", round(bw.o, 4), " (optimum)", sep = "",
                       collapse = ""))
-contour(d1, add = TRUE)
-plot(d2, main = paste("Bandwidth=", round(bw.o * 1.5, 4), " (optimum*1.5)",
+
+plot(d025, main = paste("Bandwidth=", round(bw.o * 0.25, 4), " (optimum*0.25)",
                       sep = "", collapse = ""))
-contour(d2, add = TRUE)
-plot(d4, main = paste("Bandwidth=", round(bw.o * 2, 4), " (optimum*2)",
+
+plot(d05, main = paste("Bandwidth=", round(bw.o * 0.5, 4), " (optimum*0.5)",
                       sep = "", collapse = ""))
-contour(d4, add = TRUE)
+
 par(mfrow = c(1, 1))
 
 d <- d05
 plot(d, main = "Kernel density estimation - latrine locations", xlab = "Longitude", ylab = "Latitude")
-#actually might need finer grain smoothing 
+#somewhere in between 0.25 and 0.5 - how to emperically select ? 
+
